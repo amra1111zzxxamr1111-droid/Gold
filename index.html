@@ -51,7 +51,8 @@
         
         .row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .triple-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
-        @media (max-width: 768px) { .row-grid, .triple-grid { grid-template-columns: 1fr; } }
+        .four-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        @media (max-width: 768px) { .row-grid, .triple-grid, .four-grid { grid-template-columns: 1fr; } }
         
         .btn-prime { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--rose-gold), #cc7a47); border: none; border-radius: 8px; color: #000; font-weight: bold; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; text-decoration: none;}
         .btn-prime:active { transform: scale(0.98); }
@@ -59,11 +60,14 @@
         .btn-sec { background: linear-gradient(135deg, #1e293b, #0f172a) !important; color: var(--text-light) !important; border: 1px solid var(--border-emerald) !important; }
         .btn-whatsapp { background: #25d366 !important; color: white !important; }
 
+        .price-card { background: linear-gradient(135deg, #06251b, #031410); border: 1px solid var(--gold-warm); border-radius: 10px; padding: 15px; text-align: center; box-shadow: var(--neon-glow); }
+        .price-card h4 { font-size: 0.9rem; color: #a3c2b8; margin-bottom: 5px; }
+        .price-card .price-num { font-family: 'Orbitron'; font-size: 1.6rem; font-weight: bold; color: var(--gold-warm); }
+
         .tab-header-buttons { display: flex; gap: 10px; margin-bottom: 20px; background: var(--input-bg); padding: 6px; border-radius: 8px; }
         .tab-btn { flex: 1; padding: 10px; background: none; border: none; color: #a3c2b8; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
         .tab-btn.active { background: var(--panel-emerald); color: var(--gold-warm); box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
 
-        /* الفاتورة الخارجية الفاخرة للزبون */
         .invoice-paper-luxury { background: linear-gradient(135deg, #0d1e19, #050d0a); color: #ffffff; padding: 30px; border-radius: 16px; width: 100%; max-width: 380px; margin: 15px auto; border: 2px solid var(--rose-gold); position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         .inv-lux-head { text-align: center; border-bottom: 2px solid var(--rose-gold); padding-bottom: 12px; margin-bottom: 15px; }
         .inv-lux-head h1 { font-size: 1.7rem; color: var(--gold-warm); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
@@ -72,12 +76,10 @@
         .inv-lux-total { font-size: 1.35rem; font-weight: bold; color: var(--gold-warm); border-top: 2px solid var(--rose-gold); padding-top: 10px; margin-top: 10px; display: flex; justify-content: space-between; }
         .lux-seal { margin: 15px auto 0 auto; width: 90px; height: 90px; border: 2px dashed var(--gold-warm); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--gold-warm); transform: rotate(-5deg); font-weight: bold; }
 
-        /* تقرير الإدارة العادي الداخلي (أسود وأبيض) */
         .report-paper-plain { background: #ffffff; color: #000000; padding: 25px; border-radius: 8px; width: 100%; max-width: 450px; margin: 10px auto; border: 1px solid #333; }
         .rep-plain-head { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 15px; }
         .rep-plain-head h1 { font-size: 1.4rem; color: #000; font-weight: bold; }
 
-        /* آلة كاسيو */
         .casio-frame { background: #111a17; border-radius: 12px; padding: 12px; border: 2px solid #000; margin-top: 15px; }
         .casio-lcd { background: #8fa097; height: 55px; border-radius: 6px; padding: 8px; color: #000; font-family: 'Orbitron'; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px; }
         .casio-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
@@ -106,9 +108,46 @@
 
     <div class="app-grid">
         
-        <!-- ================= [1] الشاشة الرئيسية وإعداد الميزان الافتتاحي (كل شيء صفر) ================= -->
+        <!-- ================= [1] الشاشة الرئيسية (شاشة العرض الحية للأسعار + الجرد الصفرى) ================= -->
         <div id="sec-home" class="panel-box">
-            <h2><i class="fa-solid fa-warehouse"></i> جرد الفاترينة والسيولة الافتتاحية للمحل</h2>
+            <h2><i class="fa-solid fa-chart-line"></i> لوحة مراقبة أسعار الذهب والدولار اللحظية</h2>
+            
+            <!-- هنا عرض الأسعار الحقيقية المربوطة بالشاشة العالمية والدولار في الواجهة الأساسية -->
+            <div class="four-grid" style="margin-bottom: 25px;">
+                <div class="price-card" style="border-color: #3b82f6;">
+                    <h4>الشاشة العالمية (الأونصة)</h4>
+                    <div class="price-num" id="dash-global-gold">$0.00</div>
+                </div>
+                <div class="price-card" style="border-color: var(--gold-warm);">
+                    <h4>جرام عيار 24 الحقيقي</h4>
+                    <div class="price-num" id="dash-p24">0</div>
+                    <span style="font-size:0.75rem; color:#618276;">جنيه مصري</span>
+                </div>
+                <div class="price-card" style="border-color: var(--rose-gold);">
+                    <h4>جرام عيار 21 الحقيقي</h4>
+                    <div class="price-num" id="dash-p21">0</div>
+                    <span style="font-size:0.75rem; color:#618276;">جنيه مصري</span>
+                </div>
+                <div class="price-card" style="border-color: #a855f7;">
+                    <h4>جرام عيار 18 الحقيقي</h4>
+                    <div class="price-num" id="dash-p18">0</div>
+                    <span style="font-size:0.75rem; color:#618276;">جنيه مصري</span>
+                </div>
+            </div>
+
+            <div class="row-grid" style="margin-bottom: 25px; background: var(--input-bg); padding: 15px; border-radius: 10px;">
+                <div class="form-group">
+                    <label>تعديل سعر دولار السوق الحالي للربط المحلي (ج.م)</label>
+                    <input type="number" id="dash-usd-rate" value="48.50" oninput="recalcLocalPricesFromDash()">
+                </div>
+                <div style="display:flex; align-items:flex-end; padding-bottom:14px;">
+                    <button class="btn-prime" onclick="fetchGlobalGoldPrices()"><i class="fa-solid fa-rotate"></i> تحديث الأسعار من البورصة العالمية الآن</button>
+                </div>
+            </div>
+
+            <hr style="border:1px dashed var(--border-emerald); margin:25px 0;">
+
+            <h2><i class="fa-solid fa-warehouse"></i> جرد الفاترينة والسيولة الافتتاحية الحالية للمحل</h2>
             <div class="triple-grid" style="margin-bottom: 20px;">
                 <div style="background: var(--input-bg); padding: 15px; border-radius: 10px; border-right: 4px solid var(--gold-warm);">
                     <label style="font-size:0.8rem; color:#a3c2b8;">ذهب عيار 24 بالفاترينة</label>
@@ -144,7 +183,7 @@
             </div>
         </div>
 
-        <!-- ================= [2] بوابة العمليات الحية (دمج البيع والكسر والتبديل في مكان واحد) ================= -->
+        <!-- ================= [2] بوابة العمليات الحية (دمج البيع والكسر) ================= -->
         <div id="sec-cashier" class="panel-box hidden">
             <h2><i class="fa-solid fa-cash-register"></i> بوابة المعاملات الحية والصالة اليومية</h2>
             
@@ -153,11 +192,11 @@
                 <button id="tab-btn-buy" class="tab-btn" onclick="switchSubOperation('buy')">شراء ذهب كسر من زبون</button>
             </div>
 
-            <!-- أسعار البيع الحالية المربوطة بالشاشة -->
+            <!-- أسعار البيع المربوطة التي ترحل للفاتورة تلقائياً -->
             <div class="triple-grid" style="margin-bottom: 20px; background: var(--input-bg); padding: 10px; border-radius: 8px;">
-                <div class="form-group"><label>سعر عيار 24 الحالي (ج.م)</label><input type="number" id="price-c24" value="0" oninput="liveCalculate()"></div>
-                <div class="form-group"><label>سعر عيار 21 الحالي (ج.م)</label><input type="number" id="price-c21" value="0" oninput="liveCalculate()"></div>
-                <div class="form-group"><label>سعر عيار 18 الحالي (ج.م)</label><input type="number" id="price-c18" value="0" oninput="liveCalculate()"></div>
+                <div class="form-group"><label>سعر عيار 24 المعتمد (ج.م)</label><input type="number" id="price-c24" value="0" oninput="liveCalculate()"></div>
+                <div class="form-group"><label>سعر عيار 21 المعتمد (ج.م)</label><input type="number" id="price-c21" value="0" oninput="liveCalculate()"></div>
+                <div class="form-group"><label>سعر عيار 18 المعتمد (ج.م)</label><input type="number" id="price-c18" value="0" oninput="liveCalculate()"></div>
             </div>
 
             <!-- فرع البيع المباشر المطور -->
@@ -239,7 +278,7 @@
                     <span style="font-size:0.85rem; color:#a3c2b8;">المبلغ المطلوب إخراجه فوراً من الكاش للبائع:</span>
                     <div id="bb-final-payout" style="font-size:1.5rem; font-weight:bold; color:#ef4444; font-family:'Orbitron';">0.00 ج.م</div>
                 </div>
-                <button class="btn-prime" onclick="submitBuybackToCloud()"><i class="fa-solid fa-reply-all"></i> تثبيت وإدخال الوزن للمخزن وتنزيل الفاتورة</button>
+                <button class="btn-prime" onclick="submitBuybackToCloud()"><i class="fa-solid fa-reply-all"></i> تثبيت وإدخل الوزن للمخزن وتنزيل الفاتورة</button>
             </div>
         </div>
 
@@ -264,9 +303,9 @@
             <h2><i class="fa-solid fa-shield-halved"></i> الإدارة والتقارير الحسابية (أبيض وأسود رسمي)</h2>
             
             <div class="triple-grid" style="margin-bottom:25px;">
-                <button class="btn-prime btn-sec" onclick="renderAndDownloadReport('profits')"><i class="fa-solid fa-file-invoice"></i> تحميل تقرير الأرباح والمكاسب PNG</button>
-                <button class="btn-prime btn-sec" onclick="renderAndDownloadReport('cash')"><i class="fa-solid fa-vault"></i> تحميل تقرير حركة الخزنة والدرج PNG</button>
-                <button class="btn-prime btn-sec" onclick="renderAndDownloadReport('inventory')"><i class="fa-solid fa-boxes-packing"></i> تحميل تقرير جرد الفاترينة الكلي PNG</button>
+                <button class="btn-prime btn-sec" onclick="renderAndDownloadReport('profits')"><i class="fa-solid fa-file-invoice"></i> تحميل تقرير الأرباح PNG</button>
+                <button class="btn-prime btn-sec" onclick="renderAndDownloadReport('cash')"><i class="fa-solid fa-vault"></i> تحميل تقرير حركة الخزنة PNG</button>
+                <button class="btn-prime btn-sec" onclick="renderAndDownloadReport('inventory')"><i class="fa-solid fa-boxes-packing"></i> تحميل تقرير جرد الفاترينة PNG</button>
             </div>
 
             <hr style="border:1px dashed var(--border-emerald); margin:25px 0;">
@@ -323,47 +362,55 @@
     </div>
 
     <script>
-        // إعدادات المسار لقاعدة بيانات Firebase الفريدة الخاصة بك
         const FB_URL = "https://amr1-a9154-default-rtdb.firebaseio.com/";
         const HIDDEN_SHOP_KEY = "al_hoda_branch_minya"; 
 
-        // تصفير الأصول الافتراضية كلياً لتبدأ الداتا على بياض تام $0
         let currentInventory = { gold24: 0, gold21: 0, gold18: 0, cash: 0 }; 
         let invoiceMemory = {};
+        let globalOuncePriceCached = 2350; // سعر أساسي احتياطي
 
-        // جلب الأسعار العالمية الحية والمربوطة تلقائياً بالشاشة
         function fetchGlobalGoldPrices() {
-            // استخدام أسعار متداولة حرة ومربوطة في حال تعطل الـ API الخارجي
-            let dummyOunceUSD = 2350; 
-            let dummyUsdToEgp = 48.50; 
+            let usdRate = parseFloat(document.getElementById('dash-usd-rate').value) || 48.50; 
 
             fetch('https://api.metalpriceapi.com/v1/latest?api_key=YOUR_KEY&base=USD&currencies=XAU')
             .then(res => res.json())
             .then(json => {
                 if(json && json.rates && json.rates.XAU) {
-                    dummyOunceUSD = 1 / json.rates.XAU;
+                    globalOuncePriceCached = 1 / json.rates.XAU;
                 }
-                calcPricesGrid(dummyOunceUSD, dummyUsdToEgp);
+                calcPricesGrid(globalOuncePriceCached, usdRate);
             })
             .catch(() => {
-                // الربط الاحتياطي الذكي في حال عدم وجود إنترنت مستقر
-                calcPricesGrid(dummyOunceUSD, dummyUsdToEgp);
+                calcPricesGrid(globalOuncePriceCached, usdRate);
             });
         }
 
-        function calcPricesGrid(ounceUser, usdRate) {
-            document.getElementById('tick-global').innerText = ounceUser.toFixed(2);
+        function calcPricesGrid(ounceUSD, usdRate) {
+            // تحديث التيكر العلوي
+            document.getElementById('tick-global').innerText = ounceUSD.toFixed(2);
             document.getElementById('tick-usd').innerText = usdRate.toFixed(2);
 
-            // حساب السعر الاسترشادي لجرام عيار 24 الصافي ومقارنته بالسوق المحلي
-            let price24 = (ounceUser / 31.1034768) * usdRate;
+            // تحديث كروت الواجهة الرئيسية الفاترينة
+            document.getElementById('dash-global-gold').innerText = "$" + ounceUSD.toFixed(2);
+
+            let price24 = (ounceUSD / 31.1034768) * usdRate;
             let price21 = price24 * 0.875;
             let price18 = price24 * 0.750;
 
+            document.getElementById('dash-p24').innerText = Math.round(price24).toLocaleString();
+            document.getElementById('dash-p21').innerText = Math.round(price21).toLocaleString();
+            document.getElementById('dash-p18').innerText = Math.round(price18).toLocaleString();
+
+            // ملء حقول المبيعات تلقائياً بالربط اللحظي
             document.getElementById('price-c24').value = Math.round(price24);
             document.getElementById('price-c21').value = Math.round(price21);
             document.getElementById('price-c18').value = Math.round(price18);
             liveCalculate();
+        }
+
+        function recalcLocalPricesFromDash() {
+            let usdRate = parseFloat(document.getElementById('dash-usd-rate').value) || 48.50;
+            calcPricesGrid(globalOuncePriceCached, usdRate);
         }
 
         function renderDashAndInventory() {
