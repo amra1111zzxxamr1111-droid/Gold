@@ -3,103 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <title>Smart Saga ERP - نظام الصاغة المتكامل</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #010705; --panel: #04140f; --gold: #ecc94b; --rose: #ffb380; --text: #e6f4f0; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; margin: 0; padding-bottom: 80px; }
-        .app-grid { max-width: 900px; margin: 0 auto; padding: 20px; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; margin: 0; padding: 15px; }
+        .container { max-width: 600px; margin: auto; }
         .panel { background: var(--panel); border: 1px solid #1a3a30; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-        h2 { color: var(--rose); border-bottom: 1px solid #1a3a30; padding-bottom: 10px; }
-        .btn { border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        h2 { color: var(--rose); margin-top: 0; font-size: 1.2rem; }
+        input { width: 100%; padding: 12px; background: #062017; border: 1px solid #1a3a30; color: white; border-radius: 8px; margin: 5px 0 15px 0; box-sizing: border-box; }
+        .btn { border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 5px; }
         .btn-gold { background: var(--gold); color: #000; }
-        .input-group { margin-bottom: 15px; }
-        input, select { width: 100%; padding: 12px; background: #062017; border: 1px solid #1a3a30; color: white; border-radius: 8px; }
-        .casio-frame { background: #111a17; padding: 15px; border-radius: 12px; text-align: center; }
-        .lcd { background: #8fa097; color: #000; padding: 10px; font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 10px; }
+        .btn-blue { background: #3b82f6; color: white; }
+        .casio-frame { background: #111a17; padding: 15px; border-radius: 12px; }
+        .lcd { background: #8fa097; color: #000; padding: 10px; font-family: 'Orbitron'; font-size: 1.5rem; text-align: left; margin-bottom: 10px; border-radius: 5px; }
         .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-        .btn-calc { background: #202b27; color: white; padding: 10px; border: none; cursor: pointer; }
+        .btn-calc { background: #202b27; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="app-grid">
-    <!-- بوابة المعاملات السريعة -->
-    <div class="panel">
-        <h2><i class="fa-solid fa-cash-register"></i> مبيعة سريعة (فاتورة)</h2>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div>
-                <div class="input-group"><label>الوزن (جرام)</label><input type="number" id="f-weight" placeholder="0.000"></div>
-                <div class="input-group"><label>سعر الجرام الحالي</label><input type="number" id="f-price" placeholder="سعر البيع"></div>
-                <div class="input-group"><label>المصنعية (إجمالي)</label><input type="number" id="f-work" value="0"></div>
-                <button class="btn btn-gold" onclick="calcInvoice()">حساب وتوليد الفاتورة</button>
-            </div>
-            
-            <div class="casio-frame">
-                <div class="lcd" id="lbl-out">0</div>
-                <div class="grid-4">
-                    <button class="btn-calc" onclick="addC('7')">7</button><button class="btn-calc" onclick="addC('8')">8</button><button class="btn-calc" onclick="addC('9')">9</button><button class="btn-calc" style="color:red" onclick="delC()">C</button>
-                    <button class="btn-calc" onclick="addC('4')">4</button><button class="btn-calc" onclick="addC('5')">5</button><button class="btn-calc" onclick="addC('6')">6</button><button class="btn-calc" onclick="addC('*')">×</button>
-                    <button class="btn-calc" onclick="addC('1')">1</button><button class="btn-calc" onclick="addC('2')">2</button><button class="btn-calc" onclick="addC('3')">3</button><button class="btn-calc" onclick="addC('-')">-</button>
-                    <button class="btn-calc" onclick="addC('0')">0</button><button class="btn-calc" onclick="addC('.')">.</button><button class="btn-calc" onclick="eqC()">=</button><button class="btn-calc" onclick="addC('+')">+</button>
-                </div>
-                <div style="margin-top:10px;">
-                    <button class="btn" style="background:#3b82f6; color:white; font-size:0.7rem;" onclick="sendTo('f-weight')">إرسال للوزن</button>
-                    <button class="btn" style="background:#10b981; color:white; font-size:0.7rem; margin-top:5px;" onclick="sendTo('f-price')">إرسال للسعر</button>
-                </div>
-            </div>
+<div class="container">
+    <!-- الحاسبة المتطورة -->
+    <div class="panel casio-frame">
+        <div class="lcd" id="lbl-out">0</div>
+        <div class="grid-4">
+            <button class="btn-calc" onclick="addC('7')">7</button><button class="btn-calc" onclick="addC('8')">8</button><button class="btn-calc" onclick="addC('9')">9</button><button class="btn-calc" style="color:red" onclick="delC()">C</button>
+            <button class="btn-calc" onclick="addC('4')">4</button><button class="btn-calc" onclick="addC('5')">5</button><button class="btn-calc" onclick="addC('6')">6</button><button class="btn-calc" onclick="addC('*')">×</button>
+            <button class="btn-calc" onclick="addC('1')">1</button><button class="btn-calc" onclick="addC('2')">2</button><button class="btn-calc" onclick="addC('3')">3</button><button class="btn-calc" onclick="addC('-')">-</button>
+            <button class="btn-calc" onclick="addC('0')">0</button><button class="btn-calc" onclick="addC('.')">.</button><button class="btn-calc" onclick="eqC()">=</button><button class="btn-calc" onclick="addC('+')">+</button>
+        </div>
+        <div style="display:flex; gap:5px; margin-top:10px;">
+            <button class="btn btn-blue" onclick="sendTo('f-weight')">إرسال للوزن</button>
+            <button class="btn btn-gold" onclick="sendTo('f-price')">إرسال للسعر</button>
         </div>
     </div>
 
-    <!-- منطقة تقارير الإقفال -->
+    <!-- الفاتورة السريعة -->
     <div class="panel">
-        <h2><i class="fa-solid fa-file-invoice"></i> تقرير إقفال الوردية (الوحش)</h2>
-        <button class="btn" style="background:var(--rose); color:#000;" onclick="generateShiftReport()">استخراج تقرير اليوم (صورة)</button>
+        <h2>فاتورة البيع</h2>
+        <input type="number" id="f-weight" placeholder="الوزن (جرام)">
+        <input type="number" id="f-price" placeholder="سعر الجرام">
+        <input type="number" id="f-work" placeholder="المصنعية">
+        <button class="btn btn-gold" onclick="genInvoice()">توليد الفاتورة (PNG)</button>
+    </div>
+
+    <!-- تقرير الإقفال -->
+    <div class="panel">
+        <h2>تقرير الإقفال اليومي</h2>
+        <button class="btn" style="background:var(--rose);" onclick="genReport()">إقفال الوردية واستخراج التقرير</button>
     </div>
 </div>
 
-<!-- منطقة مخفية للريندر -->
-<div id="invoice-render" style="position:fixed; left:-9999px; background:white; color:black; padding:20px; width:350px;">
-    <h2 style="text-align:center;">مجوهرات الهدى</h2>
-    <div id="invoice-content"></div>
+<!-- ريندر الفاتورة -->
+<div id="render-area" style="position:fixed; left:-9999px; background:#fff; color:#000; padding:20px; width:300px; text-align:center;">
+    <h3 id="render-title">مجوهرات الهدى</h3>
+    <div id="render-body"></div>
 </div>
 
 <script>
-    // نظام الحاسبة
+    const FB_URL = "https://amr1-a9154-default-rtdb.firebaseio.com/";
+
+    // منطق الحاسبة
     let buffer = "";
     function addC(v) { buffer += v; document.getElementById('lbl-out').innerText = buffer; }
     function delC() { buffer = ""; document.getElementById('lbl-out').innerText = "0"; }
-    function eqC() { buffer = eval(buffer).toString(); document.getElementById('lbl-out').innerText = buffer; }
+    function eqC() { try { buffer = eval(buffer).toString(); document.getElementById('lbl-out').innerText = buffer; } catch { buffer = "خطأ"; document.getElementById('lbl-out').innerText = buffer; } }
     function sendTo(id) { document.getElementById(id).value = buffer; }
 
-    // حساب الفاتورة وتوليد الصورة
-    function calcInvoice() {
-        const w = parseFloat(document.getElementById('f-weight').value);
-        const p = parseFloat(document.getElementById('f-price').value);
-        const m = parseFloat(document.getElementById('f-work').value);
-        const total = (w * p) + m;
-
-        document.getElementById('invoice-content').innerHTML = `
-            <p>الوزن: ${w} جرام</p>
-            <p>سعر الجرام: ${p} ج.م</p>
-            <p>المصنعية: ${m} ج.م</p>
-            <hr><h3>الإجمالي: ${total.toFixed(2)} ج.م</h3>
-        `;
-
-        html2canvas(document.getElementById('invoice-render')).then(canvas => {
+    // توليد فاتورة PNG
+    function genInvoice() {
+        const w = document.getElementById('f-weight').value;
+        const p = document.getElementById('f-price').value;
+        const m = document.getElementById('f-work').value;
+        const total = (w * p) + parseFloat(m);
+        
+        document.getElementById('render-title').innerText = "فاتورة بيع - مجوهرات الهدى";
+        document.getElementById('render-body').innerHTML = `<p>الوزن: ${w} جم</p><p>السعر: ${p} ج.م</p><p>المصنعية: ${m} ج.م</p><hr><h3>الإجمالي: ${total} ج.م</h3>`;
+        
+        html2canvas(document.getElementById('render-area')).then(canvas => {
             const link = document.createElement('a');
-            link.download = "Invoice.png";
+            link.download = "فاتورة_الذهب.png";
             link.href = canvas.toDataURL("image/png");
             link.click();
         });
     }
 
     // تقرير الإقفال
-    function generateShiftReport() {
-        alert("سيتم سحب بيانات اليوم من Firebase وتوليد صورة إقفال الوردية...");
+    function genReport() {
+        document.getElementById('render-title').innerText = "تقرير إقفال الوردية";
+        document.getElementById('render-body').innerHTML = `<p>تاريخ: ${new Date().toLocaleDateString('ar-EG')}</p><p>حالة النظام: تم الإقفال بنجاح</p>`;
+        
+        html2canvas(document.getElementById('render-area')).then(canvas => {
+            const link = document.createElement('a');
+            link.download = "تقرير_اليوم.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
     }
 </script>
-
 </body>
 </html>
