@@ -2,631 +2,104 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Saga ERP - Amr Systems</title>
-    <!-- الروابط الأساسية للأيقونات والخطوط الفاخرة -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <title>Smart Saga ERP - نظام الصاغة المتكامل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
     <style>
-        :root {
-            --bg-emerald: #010705;
-            --panel-emerald: #04140f;
-            --input-bg: #062017;
-            --rose-gold: #ffb380;
-            --gold-warm: #ecc94b;
-            --text-light: #e6f4f0;
-            --border-emerald: #0d382c;
-            --neon-glow: 0 0 15px rgba(255, 179, 128, 0.25);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg-emerald); color: var(--text-light); padding-bottom: 100px; min-height: 100vh; }
-
-        /* الشريط العلوي الدائم */
-        .live-ticker {
-            background: linear-gradient(90deg, #020a07, var(--panel-emerald));
-            border-bottom: 2px solid var(--rose-gold);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-
-        .app-grid { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: flex; flex-direction: column; gap: 25px; }
-        .panel-box { background-color: var(--panel-emerald); border-radius: 14px; border: 1px solid var(--border-emerald); padding: 25px; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
-        
-        .hidden { display: none !important; }
-        h2 { color: var(--rose-gold); margin-bottom: 18px; border-bottom: 2px solid var(--border-emerald); padding-bottom: 10px; font-size: 1.3rem; display: flex; align-items: center; gap: 12px; }
-        h3 { color: var(--gold-warm); margin-bottom: 12px; font-size: 1.05rem; }
-
-        /* عناصر الإدخال */
-        .form-group { margin-bottom: 14px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 0.85rem; color: #a3c2b8; }
-        .form-group input, .form-group select { width: 100%; padding: 11px; background: var(--input-bg); border: 1px solid var(--border-emerald); border-radius: 8px; color: white; font-size: 0.95rem; outline: none; }
-        .form-group input:focus, .form-group select:focus { border-color: var(--rose-gold); box-shadow: var(--neon-glow); }
-        
-        /* التقسيمات الشجرية */
-        .row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .triple-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
-        @media (max-width: 768px) { .row-grid, .triple-grid { grid-template-columns: 1fr; } }
-        
-        /* الأزرار */
-        .btn-prime { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--rose-gold), #cc7a47); border: none; border-radius: 8px; color: #000; font-weight: bold; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; text-decoration: none;}
-        .btn-prime:active { transform: scale(0.98); }
-        .btn-danger { background: linear-gradient(135deg, #ef4444, #b91c1c) !important; color: white !important; }
-        .btn-sec { background: linear-gradient(135deg, #1e293b, #0f172a) !important; color: var(--text-light) !important; border: 1px solid var(--border-emerald) !important; }
-        .btn-whatsapp { background: #25d366 !important; color: white !important; }
-
-        .tab-header-buttons { display: flex; gap: 10px; margin-bottom: 20px; background: var(--input-bg); padding: 6px; border-radius: 8px; }
-        .tab-btn { flex: 1; padding: 10px; background: none; border: none; color: #a3c2b8; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
-        .tab-btn.active { background: var(--panel-emerald); color: var(--gold-warm); box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
-
-        /* كارت الفاتورة الفاخر المطوّر لـ PNG */
-        .invoice-paper-luxury { background: linear-gradient(135deg, #0d1e19, #050d0a); color: #ffffff; padding: 30px; border-radius: 16px; width: 100%; max-width: 380px; margin: 15px auto; border: 2px solid var(--rose-gold); position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .inv-lux-head { text-align: center; border-bottom: 2px solid var(--rose-gold); padding-bottom: 12px; margin-bottom: 15px; }
-        .inv-lux-head h1 { font-size: 1.7rem; color: var(--gold-warm); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .inv-lux-head p { font-size: 0.85rem; color: #a3c2b8; }
-        .inv-lux-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; border-bottom: 1px dashed rgba(236,201,75,0.15); padding-bottom: 4px; }
-        .inv-lux-total { font-size: 1.35rem; font-weight: bold; color: var(--gold-warm); border-top: 2px solid var(--rose-gold); padding-top: 10px; margin-top: 10px; display: flex; justify-content: space-between; }
-        .lux-seal { margin: 15px auto 0 auto; width: 90px; height: 90px; border: 2px dashed var(--gold-warm); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--gold-warm); transform: rotate(-5deg); font-weight: bold; }
-
-        /* تقارير الجرد الحسابي الطباعي */
-        .report-paper-plain { background: #ffffff; color: #000000; padding: 25px; border-radius: 8px; width: 100%; max-width: 450px; margin: 10px auto; border: 1px solid #333; }
-        .rep-plain-head { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 15px; }
-        .rep-plain-head h1 { font-size: 1.4rem; color: #000; font-weight: bold; }
-
-        /* كاسيو هيدروليك مدمج */
-        .casio-frame { background: #111a17; border-radius: 12px; padding: 12px; border: 2px solid #000; margin-top: 15px; }
-        .casio-lcd { background: #8fa097; height: 55px; border-radius: 6px; padding: 8px; color: #000; font-family: 'Orbitron'; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px; }
-        .casio-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        .btn-casio { background: #202b27; border: none; border-radius: 5px; padding: 10px; color: white; font-weight: bold; cursor: pointer; }
-
-        /* الجداول الأرشيفية */
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
-        .data-table th { background-color: var(--input-bg); color: var(--rose-gold); padding: 12px; border: 1px solid var(--border-emerald); text-align: right; }
-        .data-table td { padding: 12px; border: 1px solid var(--border-emerald); background-color: rgba(4,20,15,0.4); }
-        
-        /* شريط التوجيه السفلي المريح للموبايل والتابلت */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #020c09; border-top: 1px solid var(--border-emerald); display: flex; justify-content: space-around; padding: 10px 0; z-index: 999; }
-        .nav-link { color: #527368; background: none; border: none; font-size: 0.8rem; text-align: center; cursor: pointer; width: 100%; font-weight: 600; }
-        .nav-link.active { color: var(--rose-gold); }
-        .nav-link i { display: block; font-size: 1.2rem; margin-bottom: 3px; }
+        :root { --bg: #010705; --panel: #04140f; --gold: #ecc94b; --rose: #ffb380; --text: #e6f4f0; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; margin: 0; padding-bottom: 80px; }
+        .app-grid { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .panel { background: var(--panel); border: 1px solid #1a3a30; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        h2 { color: var(--rose); border-bottom: 1px solid #1a3a30; padding-bottom: 10px; }
+        .btn { border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        .btn-gold { background: var(--gold); color: #000; }
+        .input-group { margin-bottom: 15px; }
+        input, select { width: 100%; padding: 12px; background: #062017; border: 1px solid #1a3a30; color: white; border-radius: 8px; }
+        .casio-frame { background: #111a17; padding: 15px; border-radius: 12px; text-align: center; }
+        .lcd { background: #8fa097; color: #000; padding: 10px; font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 10px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        .btn-calc { background: #202b27; color: white; padding: 10px; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- التيكر العلوي البسيط -->
-    <div class="live-ticker">
-        <div><i class="fa-solid fa-gem"></i> Smart Saga ERP</div>
-        <div id="top-clock" style="font-family: 'Orbitron'; color: var(--rose-gold); font-weight: bold;">--:--:--</div>
+<div class="app-grid">
+    <!-- بوابة المعاملات السريعة -->
+    <div class="panel">
+        <h2><i class="fa-solid fa-cash-register"></i> مبيعة سريعة (فاتورة)</h2>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <div class="input-group"><label>الوزن (جرام)</label><input type="number" id="f-weight" placeholder="0.000"></div>
+                <div class="input-group"><label>سعر الجرام الحالي</label><input type="number" id="f-price" placeholder="سعر البيع"></div>
+                <div class="input-group"><label>المصنعية (إجمالي)</label><input type="number" id="f-work" value="0"></div>
+                <button class="btn btn-gold" onclick="calcInvoice()">حساب وتوليد الفاتورة</button>
+            </div>
+            
+            <div class="casio-frame">
+                <div class="lcd" id="lbl-out">0</div>
+                <div class="grid-4">
+                    <button class="btn-calc" onclick="addC('7')">7</button><button class="btn-calc" onclick="addC('8')">8</button><button class="btn-calc" onclick="addC('9')">9</button><button class="btn-calc" style="color:red" onclick="delC()">C</button>
+                    <button class="btn-calc" onclick="addC('4')">4</button><button class="btn-calc" onclick="addC('5')">5</button><button class="btn-calc" onclick="addC('6')">6</button><button class="btn-calc" onclick="addC('*')">×</button>
+                    <button class="btn-calc" onclick="addC('1')">1</button><button class="btn-calc" onclick="addC('2')">2</button><button class="btn-calc" onclick="addC('3')">3</button><button class="btn-calc" onclick="addC('-')">-</button>
+                    <button class="btn-calc" onclick="addC('0')">0</button><button class="btn-calc" onclick="addC('.')">.</button><button class="btn-calc" onclick="eqC()">=</button><button class="btn-calc" onclick="addC('+')">+</button>
+                </div>
+                <div style="margin-top:10px;">
+                    <button class="btn" style="background:#3b82f6; color:white; font-size:0.7rem;" onclick="sendTo('f-weight')">إرسال للوزن</button>
+                    <button class="btn" style="background:#10b981; color:white; font-size:0.7rem; margin-top:5px;" onclick="sendTo('f-price')">إرسال للسعر</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="app-grid">
-        
-        <!-- ================= [1] شاشة جرد الفاترينة والأسعار الحالية ================= -->
-        <div id="sec-home" class="panel-box">
-            <h2><i class="fa-solid fa-scale-balanced"></i> تثبيت أسعار غرامات الذهب المعتمدة للحظة الحالية بالمحل</h2>
-            <div class="triple-grid" style="margin-bottom: 25px;">
-                <div class="form-group">
-                    <label>سعر غرام عيار 24 المعتمد الآن (ج.م)</label>
-                    <input type="number" id="base-price-24" value="4000" oninput="updateBasePricesInApp()">
-                </div>
-                <div class="form-group">
-                    <label>سعر غرام عيار 21 المعتمد الآن (ج.م)</label>
-                    <input type="number" id="base-price-21" value="3500" oninput="updateBasePricesInApp()">
-                </div>
-                <div class="form-group">
-                    <label>سعر غرام عيار 18 المعتمد الآن (ج.م)</label>
-                    <input type="number" id="base-price-18" value="3000" oninput="updateBasePricesInApp()">
-                </div>
-            </div>
-
-            <hr style="border:1px dashed var(--border-emerald); margin:25px 0;">
-
-            <h2><i class="fa-solid fa-warehouse"></i> جرد الفاترينة والسيولة الافتتاحية الحالية للمحل</h2>
-            <div class="triple-grid" style="margin-bottom: 20px;">
-                <div style="background: var(--input-bg); padding: 15px; border-radius: 10px; border-right: 4px solid var(--gold-warm);">
-                    <label style="font-size:0.8rem; color:#a3c2b8;">ذهب عيار 24 بالفاترينة</label>
-                    <div id="inv-display-24" style="font-size: 1.5rem; font-weight: bold; font-family:'Orbitron';">0.000 جرام</div>
-                </div>
-                <div style="background: var(--input-bg); padding: 15px; border-radius: 10px; border-right: 4px solid var(--rose-gold);">
-                    <label style="font-size:0.8rem; color:#a3c2b8;">ذهب عيار 21 بالفاترينة</label>
-                    <div id="inv-display-21" style="font-size: 1.5rem; font-weight: bold; font-family:'Orbitron';">0.000 جرام</div>
-                </div>
-                <div style="background: var(--input-bg); padding: 15px; border-radius: 10px; border-right: 4px solid #a855f7;">
-                    <label style="font-size:0.8rem; color:#a3c2b8;">ذهب عيار 18 بالفاترينة</label>
-                    <div id="inv-display-18" style="font-size: 1.5rem; font-weight: bold; font-family:'Orbitron';">0.000 جرام</div>
-                </div>
-            </div>
-            
-            <div style="background: var(--input-bg); padding: 15px; border-radius: 10px; border-right: 4px solid #3b82f6; margin-bottom: 25px;">
-                <label style="font-size:0.8rem; color:#a3c2b8;">السيولة النقدية (الدرج الحالي)</label>
-                <div id="inv-display-cash" style="font-size: 1.5rem; font-weight: bold; font-family:'Orbitron'; color:#3b82f6;">0.00 ج.م</div>
-            </div>
-
-            <h3><i class="fa-solid fa-plus-minus"></i> تعديل وتغذية مخزون الفاترينة والدرج</h3>
-            <div class="triple-grid">
-                <div class="form-group">
-                    <select id="home-asset-type">
-                        <option value="gold24">ذهب عيار 24 (جرام)</option>
-                        <option value="gold21" selected>ذهب عيار 21 (جرام)</option>
-                        <option value="gold18">ذهب عيار 18 (جرام)</option>
-                        <option value="cash">سيولة نقدية كاش (جنيه)</option>
-                    </select>
-                </div>
-                <div class="form-group"><input type="number" step="0.001" id="home-asset-qty" placeholder="أدخل الكمية المضافة"></div>
-                <button class="btn-prime" onclick="addAssetToInventory()"><i class="fa-solid fa-plus"></i> تحديث رصيد الفاترينة</button>
-            </div>
-        </div>
-
-        <!-- ================= [2] شاشة الكاشير والعمليات الحية ================= -->
-        <div id="sec-cashier" class="panel-box hidden">
-            <h2><i class="fa-solid fa-cash-register"></i> بوابة المعاملات الحية والصالة اليومية</h2>
-            
-            <div class="tab-header-buttons">
-                <button id="tab-btn-sell" class="tab-btn active" onclick="switchSubOperation('sell')">فاتورة بيع مباشر</button>
-                <button id="tab-btn-buy" class="tab-btn" onclick="switchSubOperation('buy')">شراء ذهب كسر من زبون</button>
-            </div>
-
-            <!-- زون الفاتورة مبيعات -->
-            <div id="sub-zone-sell">
-                <div class="row-grid" style="grid-template-columns: 1.3fr 1fr;">
-                    <div>
-                        <div class="row-grid">
-                            <div class="form-group"><label>اسم المشتري</label><input type="text" id="in-customer-name" placeholder="اكتب اسم الزبون" oninput="liveCalculate()"></div>
-                            <div class="form-group"><label>رقم هاتف المشتري</label><input type="text" id="in-customer-phone" placeholder="01..." oninput="liveCalculate()"></div>
-                        </div>
-                        <div class="form-group"><label>الصنف المبيع</label><input type="text" id="in-item-type" placeholder="خاتم، غويشة، كوليه..." oninput="liveCalculate()"></div>
-                        <div class="row-grid">
-                            <div class="form-group">
-                                <label>العيار</label>
-                                <select id="in-caliber" onchange="liveCalculate()">
-                                    <option value="24">عيار 24</option><option value="21" selected>عيار 21</option><option value="18">عيار 18</option>
-                                </select>
-                            </div>
-                            <div class="form-group"><label>الوزن الصافي (جرام)</label><input type="number" step="0.001" id="in-weight" placeholder="0.000" oninput="liveCalculate()"></div>
-                        </div>
-                        <div class="row-grid">
-                            <div class="form-group"><label>المصنعية والدمغة (للفرد غرام)</label><input type="number" id="in-workmanship" value="150" oninput="liveCalculate()"></div>
-                            <div class="form-group"><label>المبلغ المدفوع كاش الآن</label><input type="number" id="in-paid" placeholder="اترك فارغاً لو آجل كامل" oninput="liveCalculate()"></div>
-                        </div>
-                        <button class="btn-prime" onclick="finalizeAndSaveInvoice()"><i class="fa-solid fa-cloud-arrow-up"></i> ترحيل الفاتورة وتنزيل الـ PNG الفاخرة</button>
-                    </div>
-
-                    <!-- معاينة الفاتورة الملكية الحية على اليمين -->
-                    <div>
-                        <div class="invoice-paper-luxury" id="invoice-render-zone">
-                            <div class="inv-lux-head">
-                                <h1 id="paper-shop-name">مجوهرات الهدى</h1>
-                                <p>لصاحبها: <span id="paper-owner-name">عمرو صلاح</span></p>
-                                <p style="margin-top:4px; font-size:0.75rem; color:#ecc94b;">هاتف المحل: <span id="paper-shop-phone">01012345678</span></p>
-                            </div>
-                            <div class="inv-lux-row"><span>التاريخ:</span> <span id="paper-date">--/--/----</span></div>
-                            <div class="inv-lux-row"><span>رقم السند:</span> <span id="paper-id" style="font-family:'Orbitron'; color:var(--rose-gold);">0000</span></div>
-                            <div class="inv-lux-row"><span>العميل المشتري:</span> <strong id="paper-cust-name">عميل نقدي</strong></div>
-                            <div class="inv-lux-row"><span>رقم الهاتف:</span> <span id="paper-cust-phone">--</span></div>
-                            <div class="inv-lux-row"><span>البيان والعيار:</span> <span id="paper-item-desc">مجوهرات</span></div>
-                            <div class="inv-lux-row"><span>الوزن الصافي:</span> <span><span id="paper-weight">0.000</span> جرام</span></div>
-                            <div class="inv-lux-row"><span>سعر الجرام الثابت:</span> <span><span id="paper-gram-price">0.00</span> ج.م</span></div>
-                            <div class="inv-lux-row"><span>قيمة الذهب الصافي:</span> <span><span id="paper-pure-total">0.00</span> ج.م</span></div>
-                            <div class="inv-lux-row"><span>المصنعية والدمغات:</span> <span><span id="paper-work-total">0.00</span> ج.م</span></div>
-                            <div class="inv-lux-row" style="color:#25d366;"><span>المدفوع كاش للدرج:</span> <span><span id="paper-paid-cash">0.00</span> ج.م</span></div>
-                            <div class="inv-lux-row" style="color:#ef4444; font-weight:bold;"><span>الديون المتبقية للدفتر:</span> <span><span id="paper-debt-left">0.00</span> ج.م</span></div>
-                            <div class="inv-lux-total"><span>الصافي الإجمالي:</span> <span><span id="paper-final-total">0.00</span> ج.م</span></div>
-                            <div class="lux-seal"><span id="seal-shop">مجوهرات الهدى</span><span>مختوم ومعتمد</span></div>
-                        </div>
-
-                        <!-- آلة حاسبة من كاسيو لتسهيل الشغل السريع للمحل -->
-                        <div class="casio-frame">
-                            <div class="casio-lcd"><div style="font-size:0.8rem; opacity:0.7;" id="lbl-casio-in"></div><div style="font-size:1.2rem; font-weight:bold; text-align:left;" id="lbl-casio-out">0</div></div>
-                            <div class="casio-buttons">
-                                <button class="btn-casio" onclick="addCasio('7')">7</button><button class="btn-casio" onclick="addCasio('8')">8</button><button class="btn-casio" onclick="addCasio('9')">9</button><button class="btn-casio" style="color:#ef4444;" onclick="delCasio()">C</button>
-                                <button class="btn-casio" onclick="addCasio('4')">4</button><button class="btn-casio" onclick="addCasio('5')">5</button><button class="btn-casio" onclick="addCasio('6')">6</button><button class="btn-casio" style="color:var(--gold-warm);" onclick="addCasio('*')">×</button>
-                                <button class="btn-casio" onclick="addCasio('1')">1</button><button class="btn-casio" onclick="addCasio('2')">2</button><button class="btn-casio" onclick="addCasio('3')">3</button><button class="btn-casio" style="color:var(--gold-warm);" onclick="addCasio('-')">-</button>
-                                <button class="btn-casio" onclick="addCasio('0')">0</button><button class="btn-casio" onclick="addCasio('.')">.</button><button class="btn-casio" onclick="equalCasio()">=</button><button class="btn-casio" style="color:var(--gold-warm);" onclick="addCasio('+')">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- زون شراء الكسر المستعمل -->
-            <div id="sub-zone-buy" class="hidden">
-                <div class="form-group"><label>اسم الزبون المورد للكسر</label><input type="text" id="bb-customer" placeholder="اسم العميل البائع"></div>
-                <div class="row-grid">
-                    <div class="form-group">
-                        <label>العيار المستلم</label>
-                        <select id="bb-caliber" onchange="calcBuyback()">
-                            <option value="24">عيار 24</option><option value="21" selected>عيار 21</option><option value="18">عيار 18</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>الوزن الإجمالي الموزون (جرام)</label><input type="number" step="0.001" id="bb-weight" placeholder="0.000" oninput="calcBuyback()"></div>
-                </div>
-                <div class="form-group"><label>خصم كسر مخصص تحت سعر غرام الشراء الحالي (جنيه لكل غرام)</label><input type="number" id="bb-discount-per-gram" value="50" oninput="calcBuyback()"></div>
-                
-                <div style="background:var(--input-bg); padding:15px; border-radius:8px; border-left:4px solid #ef4444; margin-bottom:15px;">
-                    <span style="font-size:0.85rem; color:#a3c2b8;">المبلغ المالي المطلوب إخراجه فوراً من الخزنة كاش للزبون:</span>
-                    <div id="bb-final-payout" style="font-size:1.5rem; font-weight:bold; color:#ef4444; font-family:'Orbitron';">0.00 ج.م</div>
-                </div>
-                <button class="btn-prime" onclick="submitBuybackToCloud()"><i class="fa-solid fa-reply-all"></i> تثبيت وإدخال وزن الكسر للمخزن وصرف النقدية</button>
-            </div>
-        </div>
-
-        <!-- ================= [3] شاشة الأرشيف والدواوين والديون ================= -->
-        <div id="sec-archive" class="panel-box hidden">
-            <h2><i class="fa-solid fa-folder-open"></i> الدفاتر العامة وأرشيف حركة الصالة</h2>
-            <h3><i class="fa-solid fa-book-bookmark"></i> دفتر مديونيات المشترين المعلقة الحالية</h3>
-            <div style="overflow-x: auto; margin-bottom:30px;">
-                <table class="data-table">
-                    <thead><tr><th>اسم المدين</th><th>رقم الهاتف</th><th>قيمة المتبقي</th><th>تاريخ الحركة</th><th>إجراءات الحساب</th></tr></thead>
-                    <tbody id="tbl-debts-body"></tbody>
-                </table>
-            </div>
-            <h3><i class="fa-solid fa-clock-rotate-left"></i> الأرشيف الكلي لفواتير المبيعات الصادرة</h3>
-            <div style="overflow-x: auto;"><table class="data-table"><thead><tr><th>رقم السند</th><th>العميل</th><th>الصنف</th><th>الوزن</th><th>إجمالي الفاتورة</th></tr></thead><tbody id="tbl-archive-body"></tbody></table></div>
-        </div>
-
-        <!-- ================= [4] شاشة الإدارة وتقارير المنشأة الحسابية ================= -->
-        <div id="sec-profits" class="panel-box hidden">
-            <h2><i class="fa-solid fa-shield-halved"></i> الإدارة والتقارير الحسابية (نسخ للطباعة بالأبيض والأسود)</h2>
-            <div class="triple-grid" style="margin-bottom:25px;">
-                <button class="btn-prime btn-sec" onclick="renderAndDownloadReport('profits')"><i class="fa-solid fa-file-invoice"></i> استخراج تقرير الأرباح والمبيعات PNG</button>
-                <button class="btn-prime btn-sec" onclick="renderAndDownloadReport('cash')"><i class="fa-solid fa-vault"></i> استخراج تقرير النقدية والديون PNG</button>
-                <button class="btn-prime btn-sec" onclick="renderAndDownloadReport('inventory')"><i class="fa-solid fa-boxes-packing"></i> استخراج تقرير جرد أوزان الفاترينة PNG</button>
-            </div>
-            
-            <hr style="border:1px dashed var(--border-emerald); margin:25px 0;">
-            
-            <h3><i class="fa-solid fa-gears"></i> تعديل بيانات ترويسة المنشأة والفواتير</h3>
-            <div class="row-grid">
-                <div class="form-group"><label>اسم محل الذهب</label><input type="text" id="cfg-shop-name" value="مجوهرات الهدى" oninput="commitConfig()"></div>
-                <div class="form-group"><label>اسم صاحب المنشأة</label><input type="text" id="cfg-owner-name" value="عمرو صلاح" oninput="commitConfig()"></div>
-            </div>
-            <div class="row-grid">
-                <div class="form-group"><label>رقم هاتف المنشأة الرسمي</label><input type="text" id="cfg-shop-phone" value="01012345678" oninput="commitConfig()"></div>
-                <div class="form-group"><label>سيرفر الحفظ والربط السحابي الفرعي</label><input type="text" value="Firebase Realtime Active Server" disabled style="opacity:0.5;"></div>
-            </div>
-            <button class="btn-prime btn-danger" style="margin-top:15px;" onclick="masterWipeSystemAccount()"><i class="fa-solid fa-fire"></i> تصفير الفواتير والديون والأوزان بالكامل (إعادة تهيئة النظام)</button>
-
-            <!-- زون مخفي مخصص لعمل ريندر لتقارير أبيض وأسود للطباعة بدون خسارة حبر -->
-            <div style="position: absolute; left: -9999px; top: -9999px;">
-                <div class="report-paper-plain" id="report-render-zone">
-                    <div class="rep-plain-head">
-                        <h1 id="rep-shop-name">مجوهرات الهدى</h1>
-                        <p id="rep-type-title">تقرير جرد داخلي للمنشأة</p>
-                    </div>
-                    <div style="font-size: 0.85rem; margin-bottom:15px;">تاريخ الاستخراج والطباعة: <span id="rep-date">--</span></div>
-                    <div id="rep-rows-container"></div>
-                    <div style="text-align:center; font-size:0.75rem; color:#555; margin-top:30px; border-top:1px solid #000; padding-top:10px;">Powered by Amr Systems ERP Engine</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= [5] مركز المطور البرمجي المسؤول ================= -->
-        <div id="sec-support" class="panel-box hidden" style="text-align: center;">
-            <h2><i class="fa-solid fa-user-shield"></i> مركز المهندس والمطور المسؤول عن المشروع</h2>
-            <div style="margin: 25px 0;">
-                <i class="fa-solid fa-code-merge" style="font-size: 3.5rem; color: var(--rose-gold); text-shadow: var(--neon-glow); margin-bottom:15px;"></i>
-                <h1 style="font-size:2rem; color:white;">Amr Systems</h1>
-                <p style="color:var(--rose-gold); font-size:1.05rem;">المهندس المسؤول: عمرو صلاح</p>
-                <p style="font-size:0.85rem; color:#618276; margin-top:5px;">هذا النظام مسجل ومحمي ومعتمد للعمل كتطبيق سطح مكتب وتطبيق هاتف ذكي هجين.</p>
-            </div>
-            <div class="row-grid">
-                <a href="https://wa.me/201069485262" target="_blank" class="btn-prime btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> تواصل واتساب مباشر المسؤول</a>
-                <a href="https://t.me/Amr_Salah" target="_blank" class="btn-prime" style="background:#0088cc !important; color:white !important;"><i class="fa-brands fa-telegram"></i> تواصل تليجرام مباشر المسؤول</a>
-            </div>
-        </div>
-
+    <!-- منطقة تقارير الإقفال -->
+    <div class="panel">
+        <h2><i class="fa-solid fa-file-invoice"></i> تقرير إقفال الوردية (الوحش)</h2>
+        <button class="btn" style="background:var(--rose); color:#000;" onclick="generateShiftReport()">استخراج تقرير اليوم (صورة)</button>
     </div>
+</div>
 
-    <!-- شريط الانتقال السفلي الدائم -->
-    <div class="bottom-nav">
-        <button id="n-home" class="nav-link active" onclick="navigate('home')"><i class="fa-solid fa-house-user"></i>الفاترينة</button>
-        <button id="n-cashier" class="nav-link" onclick="navigate('cashier')"><i class="fa-solid fa-cash-register"></i>العمليات الحية</button>
-        <button id="n-archive" class="nav-link" onclick="navigate('archive')"><i class="fa-solid fa-folder-closed"></i>الدواوين</button>
-        <button id="n-profits" class="nav-link" onclick="navigate('profits')"><i class="fa-solid fa-shield-halved"></i>الإدارة</button>
-        <button id="n-support" class="nav-link" onclick="navigate('support')"><i class="fa-solid fa-user-gear"></i>المطور</button>
-    </div>
+<!-- منطقة مخفية للريندر -->
+<div id="invoice-render" style="position:fixed; left:-9999px; background:white; color:black; padding:20px; width:350px;">
+    <h2 style="text-align:center;">مجوهرات الهدى</h2>
+    <div id="invoice-content"></div>
+</div>
 
-    <script>
-        // رابط قاعدة بيانات الـ Firebase الخاصة بـ Amr Systems
-        const FB_URL = "https://amr1-a9154-default-rtdb.firebaseio.com/";
-        const HIDDEN_SHOP_KEY = "al_hoda_branch_minya"; // المفتاح الفريد للمحل بالمنيا
+<script>
+    // نظام الحاسبة
+    let buffer = "";
+    function addC(v) { buffer += v; document.getElementById('lbl-out').innerText = buffer; }
+    function delC() { buffer = ""; document.getElementById('lbl-out').innerText = "0"; }
+    function eqC() { buffer = eval(buffer).toString(); document.getElementById('lbl-out').innerText = buffer; }
+    function sendTo(id) { document.getElementById(id).value = buffer; }
 
-        let currentInventory = { gold24: 0, gold21: 0, gold18: 0, cash: 0 }; 
-        let invoiceMemory = {};
-        
-        // تحديث وعكس الأسعار المدخلة يدوياً داخل شاشة الكاشير والعمليات لحظياً
-        function updateBasePricesInApp() {
-            liveCalculate();
-            calcBuyback();
-        }
+    // حساب الفاتورة وتوليد الصورة
+    function calcInvoice() {
+        const w = parseFloat(document.getElementById('f-weight').value);
+        const p = parseFloat(document.getElementById('f-price').value);
+        const m = parseFloat(document.getElementById('f-work').value);
+        const total = (w * p) + m;
 
-        function renderDashAndInventory() {
-            document.getElementById('inv-display-24').innerText = currentInventory.gold24.toFixed(3) + " جرام";
-            document.getElementById('inv-display-21').innerText = currentInventory.gold21.toFixed(3) + " جرام";
-            document.getElementById('inv-display-18').innerText = (currentInventory.gold18 || 0).toFixed(3) + " جرام";
-            document.getElementById('inv-display-cash').innerText = currentInventory.cash.toLocaleString('ar-EG') + " ج.م";
-        }
+        document.getElementById('invoice-content').innerHTML = `
+            <p>الوزن: ${w} جرام</p>
+            <p>سعر الجرام: ${p} ج.م</p>
+            <p>المصنعية: ${m} ج.م</p>
+            <hr><h3>الإجمالي: ${total.toFixed(2)} ج.م</h3>
+        `;
 
-        // إدخال وتغذية يدوي للأصول بالفاترينة والدرج
-        function addAssetToInventory() {
-            const asset = document.getElementById('home-asset-type').value;
-            const qty = parseFloat(document.getElementById('home-asset-qty').value) || 0;
-            if (qty <= 0) return alert("الرجاء إدخال كمية صحيحة!");
+        html2canvas(document.getElementById('invoice-render')).then(canvas => {
+            const link = document.createElement('a');
+            link.download = "Invoice.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+    }
 
-            if (asset === "cash") currentInventory.cash += qty;
-            else if (asset === "gold24") currentInventory.gold24 += qty;
-            else if (asset === "gold21") currentInventory.gold21 += qty;
-            else if (asset === "gold18") currentInventory.gold18 = (currentInventory.gold18 || 0) + qty;
+    // تقرير الإقفال
+    function generateShiftReport() {
+        alert("سيتم سحب بيانات اليوم من Firebase وتوليد صورة إقفال الوردية...");
+    }
+</script>
 
-            fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/inventory_state.json`, { method: "PUT", body: JSON.stringify(currentInventory) })
-            .then(() => { 
-                alert("تم تحديث أصول ومخزون الفاترينة بنجاح!"); 
-                document.getElementById('home-asset-qty').value = ''; 
-                renderDashAndInventory(); 
-            });
-        }
-
-        // التبديل بين فاتورة المبيعات وفاتورة الكسر
-        function switchSubOperation(type) {
-            document.getElementById('tab-btn-sell').classList.remove('active');
-            document.getElementById('tab-btn-buy').classList.remove('active');
-            document.getElementById('sub-zone-sell').classList.add('hidden');
-            document.getElementById('sub-zone-buy').classList.add('hidden');
-
-            if (type === 'sell') {
-                document.getElementById('tab-btn-sell').classList.add('active');
-                document.getElementById('sub-zone-sell').classList.remove('hidden');
-            } else {
-                document.getElementById('tab-btn-buy').classList.add('active');
-                document.getElementById('sub-zone-buy').classList.remove('hidden');
-                calcBuyback();
-            }
-        }
-
-        // حسابات المبيعات والعمليات الحية الدقيقة بدون إنترنت وبناءً على مدخلات لوحة الفاترينة اليدوية
-        function liveCalculate() {
-            const caliber = document.getElementById('in-caliber').value;
-            const weight = parseFloat(document.getElementById('in-weight').value) || 0;
-            const workmanship = parseFloat(document.getElementById('in-workmanship').value) || 0;
-            const paidCash = parseFloat(document.getElementById('in-paid').value) || 0;
-            const custName = document.getElementById('in-customer-name').value || "عميل نقدي";
-            const custPhone = document.getElementById('in-customer-phone').value || "--";
-            const itemType = document.getElementById('in-item-type').value || "مجوهرات";
-
-            // جلب السعر الثابت من خانات المدخلات اليدوية بصفحة الفاترينة الرئيسية
-            let currentGramPrice = parseFloat(document.getElementById('base-price-' + caliber).value) || 0;
-
-            let pureTotal = weight * currentGramPrice;
-            let finalWorkmanshipTotal = workmanship * weight;
-            let grandTotal = pureTotal + finalWorkmanshipTotal;
-            let debtLeft = grandTotal - paidCash;
-
-            // إسقاط وعكس البيانات الحية على واجهة كارت الفاتورة الملكية الفاخرة
-            document.getElementById('paper-date').innerText = new Date().toLocaleDateString('ar-EG');
-            document.getElementById('paper-cust-name').innerText = custName;
-            document.getElementById('paper-cust-phone').innerText = custPhone;
-            document.getElementById('paper-item-desc').innerText = `${itemType} (عيار ${caliber})`;
-            document.getElementById('paper-weight').innerText = weight.toFixed(3);
-            document.getElementById('paper-gram-price').innerText = currentGramPrice.toFixed(2);
-            document.getElementById('paper-pure-total').innerText = pureTotal.toFixed(2);
-            document.getElementById('paper-work-total').innerText = finalWorkmanshipTotal.toFixed(2);
-            document.getElementById('paper-paid-cash').innerText = paidCash.toFixed(2);
-            document.getElementById('paper-debt-left').innerText = Math.max(0, debtLeft).toFixed(2);
-            document.getElementById('paper-final-total').innerText = Math.max(0, grandTotal).toFixed(2);
-
-            invoiceMemory = {
-                invoiceId: document.getElementById('paper-id').innerText,
-                date: new Date().toISOString().split('T')[0],
-                customer: custName,
-                phone: custPhone,
-                item: itemType,
-                caliber: caliber,
-                weight: weight,
-                paid: paidCash,
-                debt: Math.max(0, debtLeft),
-                finalPrice: Math.max(0, grandTotal)
-            };
-        }
-
-        // ترحيل الفاتورة وتخصيم الوزن من الفاترينة وإضافة الكاش للدرج مع إنتاج الـ PNG
-        function finalizeAndSaveInvoice() {
-            if (!invoiceMemory.weight || invoiceMemory.weight <= 0) return alert("برجاء إدخال كمية الوزن أولاً لإتمام البيع!");
-
-            if (invoiceMemory.caliber === "24") currentInventory.gold24 -= invoiceMemory.weight;
-            if (invoiceMemory.caliber === "21") currentInventory.gold21 -= invoiceMemory.weight;
-            if (invoiceMemory.caliber === "18") currentInventory.gold18 = (currentInventory.gold18 || 0) - invoiceMemory.weight;
-            currentInventory.cash += invoiceMemory.paid;
-
-            fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/inventory_state.json`, { method: "PUT", body: JSON.stringify(currentInventory) });
-            fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/invoices.json`, { method: "POST", body: JSON.stringify(invoiceMemory) })
-            .then(() => {
-                // التقاط صورة للفاتورة الملكية بدقة 2x لتنزيلها على الجهاز فوراً
-                html2canvas(document.getElementById('invoice-render-zone'), { scale: 2 }).then(canvas => {
-                    const dlLink = document.createElement('a');
-                    dlLink.href = canvas.toDataURL('image/png');
-                    dlLink.download = `فاتورة_${invoiceMemory.invoiceId}.png`;
-                    dlLink.click();
-                    
-                    // إعادة تهيئة وتنظيف الخانات للعملية التالية
-                    document.getElementById('in-item-type').value = '';
-                    document.getElementById('in-weight').value = '';
-                    document.getElementById('in-paid').value = '';
-                    document.getElementById('paper-id').innerText = Math.floor(10000 + Math.random() * 90000);
-                    liveCalculate();
-                    pullCloudDatabase(); 
-                });
-            });
-        }
-
-        // إرسال رسالة تذكير مديونية للعميل المدين عبر الواتساب مباشرة
-        function openWhatsAppReminder(custName, custPhone, debtAmt) {
-            let encodedText = encodeURIComponent(`تذكير من محل ${document.getElementById('cfg-shop-name').value}: متبقي عليكم مديونية حساب وقدرها ${debtAmt} ج.م. برجاء السداد في أقرب وقت.`);
-            window.open(`https://wa.me/${custPhone}?text=${encodedText}`, '_blank');
-        }
-
-        // تأكيد سداد الديون وحذف الفاتورة من السجلات
-        function deleteInvoicePermanently(key) {
-            if (confirm("هل تم استلام المبلغ وتأكيد سداد وإغلاق الفاتورة بالكامل؟")) {
-                fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/invoices/${key}.json`, { method: "DELETE" }).then(() => { pullCloudDatabase(); });
-            }
-        }
-
-        // حسابات شراء كسر من العميل
-        let buybackMemory = {};
-        function calcBuyback() {
-            const caliber = document.getElementById('bb-caliber').value;
-            const weight = parseFloat(document.getElementById('bb-weight').value) || 0;
-            const discountPerGram = parseFloat(document.getElementById('bb-discount-per-gram').value) || 0;
-            
-            // جلب السعر الثابت للغرام من واجهة الفاترينة وخصم القيمة المحددة منه للغرام
-            let baseGramPrice = parseFloat(document.getElementById('base-price-' + caliber).value) || 0;
-            let buybackPricePerGram = baseGramPrice - discountPerGram;
-
-            let payout = weight * buybackPricePerGram;
-            document.getElementById('bb-final-payout').innerText = payout.toLocaleString('ar-EG') + " ج.م";
-            
-            buybackMemory = {
-                date: new Date().toISOString().split('T')[0],
-                customer: document.getElementById('bb-customer').value || "عميل بائع للكسر",
-                caliber: caliber,
-                weight: weight,
-                totalPayout: payout
-            };
-        }
-
-        // ترحيل عملية شراء كسر (إضافة وزن الكسر للفاترينة وسحب كاش من الدرج للزبون)
-        function submitBuybackToCloud() {
-            if (!buybackMemory.totalPayout || buybackMemory.totalPayout <= 0) return alert("الوزن المستلم غير صحيح!");
-            if (buybackMemory.caliber === "24") currentInventory.gold24 += buybackMemory.weight;
-            if (buybackMemory.caliber === "21") currentInventory.gold21 += buybackMemory.weight;
-            if (buybackMemory.caliber === "18") currentInventory.gold18 = (currentInventory.gold18 || 0) + buybackMemory.weight;
-            currentInventory.cash -= buybackMemory.totalPayout;
-
-            fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/inventory_state.json`, { method: "PUT", body: JSON.stringify(currentInventory) });
-            fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/buybacks.json`, { method: "POST", body: JSON.stringify(buybackMemory) })
-            .then(() => {
-                alert("تم إيداع أوزان الذهب الكسر للفاترينة بنجاح وصرف النقدية للعميل!");
-                document.getElementById('bb-customer').value = '';
-                document.getElementById('bb-weight').value = '';
-                calcBuyback();
-                pullCloudDatabase();
-            });
-        }
-
-        // سحب وتحديث جداول الأرشيف والديون والسيولة النقدية الشاملة من قاعدة البيانات السحابية
-        let totalSalesCount = 0;
-        let totalDebtsSum = 0;
-        function pullCloudDatabase() {
-            fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/inventory_state.json`).then(r => r.json()).then(invData => { 
-                if (invData) currentInventory = invData; 
-                renderDashAndInventory(); 
-            });
-            
-            fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/invoices.json`).then(r => r.json()).then(data => {
-                const archiveTable = document.getElementById('tbl-archive-body');
-                const debtsTable = document.getElementById('tbl-debts-body');
-                archiveTable.innerHTML = ''; debtsTable.innerHTML = '';
-                totalSalesCount = 0; totalDebtsSum = 0;
-
-                if (data) {
-                    Object.keys(data).forEach(key => {
-                        let inv = data[key]; totalSalesCount++;
-                        archiveTable.insertAdjacentHTML('beforeend', `<tr><td>${inv.invoiceId}</td><td>${inv.customer}</td><td>${inv.item} (ع ${inv.caliber})</td><td>${inv.weight}ج</td><td>${inv.finalPrice.toFixed(0)}</td></tr>`);
-                        if (inv.debt > 0) {
-                            totalDebtsSum += inv.debt;
-                            debtsTable.insertAdjacentHTML('beforeend', `<tr>
-                                <td><strong>${inv.customer}</strong></td><td>${inv.phone}</td><td style="color:#ef4444; font-weight:bold;">${inv.debt.toFixed(0)} ج.م</td><td>${inv.date}</td>
-                                <td>
-                                    <button class="btn-prime btn-whatsapp" style="padding:4px 8px; font-size:0.75rem; display:inline-flex;" onclick="openWhatsAppReminder('${inv.customer}','${inv.phone}', ${inv.debt.toFixed(0)})"><i class="fa-brands fa-whatsapp"></i></button>
-                                    <button class="btn-prime btn-danger" style="padding:4px 8px; font-size:0.75rem; display:inline-flex;" onclick="deleteInvoicePermanently('${key}')"><i class="fa-solid fa-check"></i></button>
-                                </td>
-                            </tr>`);
-                        }
-                    });
-                }
-            });
-        }
-
-        // إنتاج تقارير الأرباح والجرد المالي الداخلي للمحل (أبيض وأسود للطباعة الاحترافية)
-        function renderAndDownloadReport(type) {
-            const container = document.getElementById('rep-rows-container');
-            const title = document.getElementById('rep-type-title');
-            document.getElementById('rep-date').innerText = new Date().toLocaleDateString('ar-EG');
-            container.innerHTML = '';
-
-            if (type === 'profits') {
-                title.innerText = "تقرير الأرباح والمبيعات الشامل";
-                container.innerHTML = `<p style="font-size:1.1rem; margin-bottom:10px;">إجمالي فواتير مبيعات الصالة المنفذة: <strong>${totalSalesCount} فاتورة</strong></p>`;
-            } else if (type === 'cash') {
-                title.innerText = "تقرير حركة الخزنة والدواوين المعلقة";
-                container.innerHTML = `<p style="font-size:1.1rem; margin-bottom:8px;">كاش الدرج والخزينة الحالي: <strong>${currentInventory.cash.toLocaleString('ar-EG')} ج.م</strong></p>
-                                       <p style="font-size:1.1rem; color:#b91c1c;">إجمالي الديون والمديونيات الخارجية المعلقة بالدفتر: <strong>${totalDebtsSum.toLocaleString('ar-EG')} ج.م</strong></p>`;
-            } else if (type === 'inventory') {
-                title.innerText = "تقرير جرد الأوزان الكلي داخل الفاترينة";
-                container.innerHTML = `<p style="font-size:1.1rem; margin-bottom:6px;">مخزون ذهب عيار 24 الصافي: <strong>${currentInventory.gold24.toFixed(3)} غرام</strong></p>
-                                       <p style="font-size:1.1rem; margin-bottom:6px;">مخزون ذهب عيار 21 الصافي: <strong>${currentInventory.gold21.toFixed(3)} غرام</strong></p>
-                                       <p style="font-size:1.1rem; margin-bottom:6px;">مخزون ذهب عيار 18 الصافي: <strong>${(currentInventory.gold18 || 0).toFixed(3)} غرام</strong></p>`;
-            }
-
-            html2canvas(document.getElementById('report-render-zone'), { scale: 2 }).then(canvas => {
-                const link = document.createElement('a'); link.href = canvas.toDataURL('image/png'); link.download = `تقرير_${type}.png`; link.click();
-            });
-        }
-
-        // ضبط ومزامنة ترويسة المنشأة واسم المحل بالفواتير والتقارير
-        function commitConfig() {
-            const shop = document.getElementById('cfg-shop-name').value;
-            const owner = document.getElementById('cfg-owner-name').value;
-            const phone = document.getElementById('cfg-shop-phone').value;
-            document.getElementById('paper-shop-name').innerText = shop;
-            document.getElementById('paper-owner-name').innerText = owner;
-            document.getElementById('paper-shop-phone').innerText = phone;
-            document.getElementById('seal-shop').innerText = shop;
-            document.getElementById('rep-shop-name').innerText = shop;
-        }
-
-        // تصفير وتهيئة الحسابات بالكامل للحالات الطارئة ومسح الأرشيف السحابي
-        function masterWipeSystemAccount() {
-            if (prompt("يرجى إدخال كلمة السر الخاصة بالمطور لتصفير السيرفر بالكامل:") === "15102009") {
-                Promise.all([fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/invoices.json`, { method: "DELETE" }), fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/buybacks.json`, { method: "DELETE" })])
-                .then(() => { 
-                    currentInventory = { gold24: 0, gold21: 0, gold18: 0, cash: 0 }; 
-                    fetch(`${FB_URL}shops/${HIDDEN_SHOP_KEY}/inventory_state.json`, { method: "PUT", body: JSON.stringify(currentInventory) }); 
-                    pullCloudDatabase(); 
-                    navigate('home'); 
-                    alert("تم إعادة تهيئة وتصفير السيرفر والنظام بنجاح!");
-                });
-            }
-        }
-
-        // محرك التنقل السفلي السلس
-        function navigate(target) {
-            ['home', 'cashier', 'archive', 'profits', 'support'].forEach(sec => {
-                if(document.getElementById('sec-' + sec)) document.getElementById('sec-' + sec).classList.add('hidden');
-                if(document.getElementById('n-' + sec)) document.getElementById('n-' + sec).classList.remove('active');
-            });
-            document.getElementById('sec-' + target).classList.remove('hidden');
-            document.getElementById('n-' + target).classList.add('active');
-        }
-
-        // محرك الآلة الحاسبة المدمجة (Casio Engine)
-        let cExp = "";
-        function addCasio(v) { cExp += v; document.getElementById('lbl-casio-in').innerText = cExp; }
-        function delCasio() { cExp = cExp.slice(0, -1); document.getElementById('lbl-casio-in').innerText = cExp; }
-        function equalCasio() { try { document.getElementById('lbl-casio-out').innerText = eval(cExp); } catch(e) { document.getElementById('lbl-casio-out').innerText = "Error"; } }
-
-        // الدالة التنفيذية فور فتح التطبيق
-        window.onload = function() {
-            document.getElementById('paper-id').innerText = Math.floor(10000 + Math.random() * 90000);
-            commitConfig(); 
-            pullCloudDatabase();
-            setInterval(() => { document.getElementById('top-clock').innerText = new Date().toLocaleTimeString('ar-EG'); }, 1000);
-        };
-    </script>
 </body>
-                        </html>
+</html>
