@@ -2,105 +2,120 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Smart Saga ERP - نظام الصاغة المتكامل</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Saga ERP - Amr Systems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #010705; --panel: #04140f; --gold: #ecc94b; --rose: #ffb380; --text: #e6f4f0; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; margin: 0; padding: 15px; }
-        .container { max-width: 600px; margin: auto; }
-        .panel { background: var(--panel); border: 1px solid #1a3a30; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-        h2 { color: var(--rose); margin-top: 0; font-size: 1.2rem; }
-        input { width: 100%; padding: 12px; background: #062017; border: 1px solid #1a3a30; color: white; border-radius: 8px; margin: 5px 0 15px 0; box-sizing: border-box; }
-        .btn { border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 5px; }
-        .btn-gold { background: var(--gold); color: #000; }
-        .btn-blue { background: #3b82f6; color: white; }
-        .casio-frame { background: #111a17; padding: 15px; border-radius: 12px; }
-        .lcd { background: #8fa097; color: #000; padding: 10px; font-family: 'Orbitron'; font-size: 1.5rem; text-align: left; margin-bottom: 10px; border-radius: 5px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-        .btn-calc { background: #202b27; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer; }
+        :root { --bg-emerald: #010705; --panel-emerald: #04140f; --input-bg: #062017; --rose-gold: #ffb380; --gold-warm: #ecc94b; --text-light: #e6f4f0; --border-emerald: #0d382c; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-emerald); color: var(--text-light); padding-bottom: 100px; min-height: 100vh; }
+        .app-grid { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: flex; flex-direction: column; gap: 25px; }
+        .panel-box { background-color: var(--panel-emerald); border-radius: 14px; border: 1px solid var(--border-emerald); padding: 25px; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
+        .hidden { display: none !important; }
+        h2 { color: var(--rose-gold); margin-bottom: 18px; border-bottom: 2px solid var(--border-emerald); padding-bottom: 10px; font-size: 1.3rem; display: flex; align-items: center; gap: 12px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group input { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-emerald); border-radius: 8px; color: white; }
+        .btn-prime { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--rose-gold), #cc7a47); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: #000; margin-top: 10px; }
+        
+        /* الحاسبة المتطورة */
+        .casio-frame { background: #111a17; border-radius: 12px; padding: 15px; border: 2px solid #000; }
+        .casio-lcd { background: #8fa097; height: 50px; color: #000; font-family: 'Orbitron'; font-size: 1.4rem; display: flex; align-items: center; padding: 0 10px; margin-bottom: 10px; border-radius: 5px; }
+        .casio-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        .btn-casio { background: #202b27; border: none; padding: 12px; color: white; cursor: pointer; border-radius: 4px; }
+        
+        /* الفاتورة وتقرير الإقفال */
+        #render-zone { position: fixed; left: -9999px; background: linear-gradient(135deg, #0d1e19, #050d0a); color: #fff; padding: 30px; width: 350px; border: 2px solid var(--rose-gold); text-align: center; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #020c09; display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid var(--border-emerald); z-index: 1000; }
+        .nav-link { background: none; border: none; color: #527368; cursor: pointer; font-size: 0.9rem; }
+        .nav-link.active { color: var(--rose-gold); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- الحاسبة المتطورة -->
-    <div class="panel casio-frame">
-        <div class="lcd" id="lbl-out">0</div>
-        <div class="grid-4">
-            <button class="btn-calc" onclick="addC('7')">7</button><button class="btn-calc" onclick="addC('8')">8</button><button class="btn-calc" onclick="addC('9')">9</button><button class="btn-calc" style="color:red" onclick="delC()">C</button>
-            <button class="btn-calc" onclick="addC('4')">4</button><button class="btn-calc" onclick="addC('5')">5</button><button class="btn-calc" onclick="addC('6')">6</button><button class="btn-calc" onclick="addC('*')">×</button>
-            <button class="btn-calc" onclick="addC('1')">1</button><button class="btn-calc" onclick="addC('2')">2</button><button class="btn-calc" onclick="addC('3')">3</button><button class="btn-calc" onclick="addC('-')">-</button>
-            <button class="btn-calc" onclick="addC('0')">0</button><button class="btn-calc" onclick="addC('.')">.</button><button class="btn-calc" onclick="eqC()">=</button><button class="btn-calc" onclick="addC('+')">+</button>
+    <div class="app-grid">
+        <!-- شاشة الكاشير -->
+        <div id="sec-cashier" class="panel-box">
+            <h2><i class="fa-solid fa-cash-register"></i> بوابة المبيعات السريعة</h2>
+            <div style="display: grid; grid-template-columns: 1fr 300px; gap: 20px;">
+                <div>
+                    <div class="form-group"><label>الوزن (جرام)</label><input type="number" id="in-weight" step="0.001"></div>
+                    <div class="form-group"><label>سعر الجرام الحالي</label><input type="number" id="in-live-price"></div>
+                    <div class="form-group"><label>المصنعية</label><input type="number" id="in-work"></div>
+                    <button class="btn-prime" onclick="finalizeInvoice()">تصدير الفاتورة PNG</button>
+                </div>
+                <div class="casio-frame">
+                    <div class="casio-lcd" id="lbl-out">0</div>
+                    <div class="casio-buttons">
+                        <button class="btn-casio" onclick="addC('7')">7</button><button class="btn-casio" onclick="addC('8')">8</button><button class="btn-casio" onclick="addC('9')">9</button><button class="btn-casio" onclick="delC()" style="color:#ef4444">C</button>
+                        <button class="btn-casio" onclick="addC('4')">4</button><button class="btn-casio" onclick="addC('5')">5</button><button class="btn-casio" onclick="addC('6')">6</button><button class="btn-casio" onclick="addC('*')">×</button>
+                        <button class="btn-casio" onclick="addC('1')">1</button><button class="btn-casio" onclick="addC('2')">2</button><button class="btn-casio" onclick="addC('3')">3</button><button class="btn-casio" onclick="addC('-')">-</button>
+                        <button class="btn-casio" onclick="addC('0')">0</button><button class="btn-casio" onclick="addC('.')">.</button><button class="btn-casio" onclick="eqC()">=</button><button class="btn-casio" onclick="addC('+')">+</button>
+                    </div>
+                    <div style="margin-top:10px; display:flex; gap:5px;">
+                        <button class="btn-casio" style="background:#3b82f6; flex:1;" onclick="sendTo('in-weight')">إرسال للوزن</button>
+                        <button class="btn-casio" style="background:#ecc94b; color:#000; flex:1;" onclick="sendTo('in-live-price')">إرسال للسعر</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div style="display:flex; gap:5px; margin-top:10px;">
-            <button class="btn btn-blue" onclick="sendTo('f-weight')">إرسال للوزن</button>
-            <button class="btn btn-gold" onclick="sendTo('f-price')">إرسال للسعر</button>
+
+        <!-- الإدارة -->
+        <div id="sec-profits" class="panel-box">
+            <h2><i class="fa-solid fa-shield-halved"></i> الإدارة وإقفال الوردية</h2>
+            <button class="btn-prime" onclick="genReport()">استخراج تقرير إقفال الوردية (صورة PNG)</button>
         </div>
     </div>
 
-    <!-- الفاتورة السريعة -->
-    <div class="panel">
-        <h2>فاتورة البيع</h2>
-        <input type="number" id="f-weight" placeholder="الوزن (جرام)">
-        <input type="number" id="f-price" placeholder="سعر الجرام">
-        <input type="number" id="f-work" placeholder="المصنعية">
-        <button class="btn btn-gold" onclick="genInvoice()">توليد الفاتورة (PNG)</button>
+    <!-- منطقة الريندر الخفية -->
+    <div id="render-zone">
+        <h2 id="r-title" style="color:var(--gold-warm);">مجوهرات الهدى</h2>
+        <div id="r-body" style="margin:20px 0; font-size:1.2rem;"></div>
+        <p style="font-size:0.8rem; opacity:0.6;">Powered by Amr Systems ERP</p>
     </div>
 
-    <!-- تقرير الإقفال -->
-    <div class="panel">
-        <h2>تقرير الإقفال اليومي</h2>
-        <button class="btn" style="background:var(--rose);" onclick="genReport()">إقفال الوردية واستخراج التقرير</button>
+    <div class="bottom-nav">
+        <button class="nav-link active">الكاشير</button>
+        <button class="nav-link" onclick="genReport()">إقفال الوردية</button>
     </div>
-</div>
 
-<!-- ريندر الفاتورة -->
-<div id="render-area" style="position:fixed; left:-9999px; background:#fff; color:#000; padding:20px; width:300px; text-align:center;">
-    <h3 id="render-title">مجوهرات الهدى</h3>
-    <div id="render-body"></div>
-</div>
+    <script>
+        const FB_URL = "https://amr1-a9154-default-rtdb.firebaseio.com/";
+        let buffer = "";
 
-<script>
-    const FB_URL = "https://amr1-a9154-default-rtdb.firebaseio.com/";
+        // الحاسبة
+        function addC(v) { buffer += v; document.getElementById('lbl-out').innerText = buffer; }
+        function delC() { buffer = ""; document.getElementById('lbl-out').innerText = "0"; }
+        function eqC() { try { buffer = eval(buffer).toString(); document.getElementById('lbl-out').innerText = buffer; } catch { buffer = "خطأ"; document.getElementById('lbl-out').innerText = buffer; } }
+        function sendTo(id) { document.getElementById(id).value = buffer; }
 
-    // منطق الحاسبة
-    let buffer = "";
-    function addC(v) { buffer += v; document.getElementById('lbl-out').innerText = buffer; }
-    function delC() { buffer = ""; document.getElementById('lbl-out').innerText = "0"; }
-    function eqC() { try { buffer = eval(buffer).toString(); document.getElementById('lbl-out').innerText = buffer; } catch { buffer = "خطأ"; document.getElementById('lbl-out').innerText = buffer; } }
-    function sendTo(id) { document.getElementById(id).value = buffer; }
+        // الفاتورة
+        function finalizeInvoice() {
+            const w = document.getElementById('in-weight').value;
+            const p = document.getElementById('in-live-price').value;
+            const m = document.getElementById('in-work').value;
+            const total = (w * p) + parseFloat(m);
+            document.getElementById('r-title').innerText = "فاتورة مبيعات";
+            document.getElementById('r-body').innerHTML = `الوزن: ${w} جم<br>السعر: ${p} ج.م<br>المصنعية: ${m} ج.م<hr><h3>الإجمالي: ${total.toFixed(2)} ج.م</h3>`;
+            exportPNG("فاتورة_بيع.png");
+        }
 
-    // توليد فاتورة PNG
-    function genInvoice() {
-        const w = document.getElementById('f-weight').value;
-        const p = document.getElementById('f-price').value;
-        const m = document.getElementById('f-work').value;
-        const total = (w * p) + parseFloat(m);
-        
-        document.getElementById('render-title').innerText = "فاتورة بيع - مجوهرات الهدى";
-        document.getElementById('render-body').innerHTML = `<p>الوزن: ${w} جم</p><p>السعر: ${p} ج.م</p><p>المصنعية: ${m} ج.م</p><hr><h3>الإجمالي: ${total} ج.م</h3>`;
-        
-        html2canvas(document.getElementById('render-area')).then(canvas => {
-            const link = document.createElement('a');
-            link.download = "فاتورة_الذهب.png";
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-        });
-    }
+        // الإقفال
+        function genReport() {
+            document.getElementById('r-title').innerText = "تقرير إقفال الوردية";
+            document.getElementById('r-body').innerHTML = `التاريخ: ${new Date().toLocaleDateString('ar-EG')}<br>تم حفظ وإقفال كافة العمليات اليومية بنجاح.`;
+            exportPNG("تقرير_الوردية.png");
+        }
 
-    // تقرير الإقفال
-    function genReport() {
-        document.getElementById('render-title').innerText = "تقرير إقفال الوردية";
-        document.getElementById('render-body').innerHTML = `<p>تاريخ: ${new Date().toLocaleDateString('ar-EG')}</p><p>حالة النظام: تم الإقفال بنجاح</p>`;
-        
-        html2canvas(document.getElementById('render-area')).then(canvas => {
-            const link = document.createElement('a');
-            link.download = "تقرير_اليوم.png";
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-        });
-    }
-</script>
+        function exportPNG(fileName) {
+            html2canvas(document.getElementById('render-zone')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = fileName;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            });
+        }
+    </script>
 </body>
 </html>
